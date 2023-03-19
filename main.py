@@ -1,3 +1,5 @@
+# https://pygame-menu.readthedocs.io/en/latest/index.html
+
 import pygame
 import sys
 import random
@@ -21,17 +23,10 @@ MARGIN = 1
 size = [SIZE_BLOCK * COUNT_BLOCKS + 2 * SIZE_BLOCK + MARGIN * COUNT_BLOCKS,
         SIZE_BLOCK * COUNT_BLOCKS + 2 * SIZE_BLOCK + MARGIN * COUNT_BLOCKS + HEADER_MARGIN]
 
-with open("score.json", "r") as snake_score:
-    score_json = snake_score.read()
-
-score_all = json.loads(score_json)
-item = score_all[0]
-# print(item['Name'], item['Score'])
-
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Snake')
 timer = pygame.time.Clock()
-courier = pygame.font.SysFont('courier', 36)
+courier = pygame.font.SysFont('courier', 20)
 
 class SnakeBlock:
     def __init__(self, x, y):
@@ -109,11 +104,8 @@ def start_the_game():
 
         head = snake_blocks[-1]
         if not head.is_inside():
-
-
             break
-            # pygame.quit()
-            # sys.exit()
+
 
 
         draw_block(RED, apple.x, apple.y)
@@ -144,11 +136,18 @@ def start_the_game():
 menu = pygame_menu.Menu('Welcome', 300, 250,
                        theme=pygame_menu.themes.THEME_BLUE)
 
-menu.add.text_input('Name: ', default='Player1')
+with open("score.json", "r") as snake_score:
+    score_json = snake_score.read()
 
+score_all = json.loads(score_json)
+item = score_all[0]
+Player_Name = item['Name']
+# print(item['Name'], item['Score'])
+
+menu.add.text_input('Name: ', default=Player_Name)
 menu.add.button('Play', start_the_game)
 menu.add.button('Quit', pygame_menu.events.EXIT)
-# menu.mainloop(screen)
+
 
 while True:
 
